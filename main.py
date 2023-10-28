@@ -1,9 +1,14 @@
 import tkinter as tk
 x = None
 y = None
+xi = None
+yi = None
 sign = None
+ans = 0
 def answer(x, y, sign):
+    global ans
     if y is not None:
+        ans = 1
         if sign == "+":
             answer_label.config(text = x + y)
         if sign == "-":
@@ -15,27 +20,46 @@ def answer(x, y, sign):
     else:
         print("Y is not declared")
 def choose_a_sign(s):
-    global sign
-    global x
-    if x is  not None:
-        sign = s
-        sign_label.config(text = sign)
-    else:
-        print("First number isn't declared")
+    if ans == 0:
+        global sign
+        global x
+        if x is  not None:
+            sign = s
+            sign_label.config(text = sign)
+        else:
+            print("First number isn't declared")
 def build_a_number(n):
     global x
     global y
+    global xi
+    global yi
     if sign is None:
-        x = n
-        first_number_label.config(text = x)
+        if x == None:
+            x = n
+            first_number_label.config(text = x)
+        else:
+            x *= 10
+            x = x + n
+            first_number_label.config(text=x)
     else:
-        y = n
-        second_number_label.config(text = y)
+        if ans == 0:
+            if y == None:
+                y = n
+                second_number_label.config(text=y)
+            else:
+                y *= 10
+                y = y + n
+                second_number_label.config(text=y)
 
 def clear():
     global x
     global y
+    global xi
+    global yi
     global sign
+    global ans
+
+    ans = 0
     x = None
     y = None
     sign = None
@@ -96,6 +120,9 @@ btn8.grid(row = 2, column = 1, sticky = tk.W + tk.E)
 
 btn8 = tk.Button(buttonframe, text = '9', font = ('Comic Sans', 18), command = lambda : build_a_number(9))
 btn8.grid(row = 2, column = 2, sticky = tk.W + tk.E)
+
+btn8 = tk.Button(buttonframe, text = '0', font = ('Comic Sans', 18), command = lambda : build_a_number(0))
+btn8.grid(row = 3, column = 1, sticky = tk.W + tk.E)
 
 buttonframe.pack(fill='x')
 
